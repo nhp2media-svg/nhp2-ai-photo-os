@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Photo OS — Prompt Library + Drift Guard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img class="brand-logo" src="assets/brand-logo.png" alt="Brand logo" />
+        <div>
+          <div class="brand-title">AI PHOTO OS</div>
+          <div class="brand-sub">Prompts • Workflow • Drift Guard</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-target="overview">Overview</button>
+        <button class="nav-item" data-target="decision">Decision Flow</button>
+        <button class="nav-item" data-target="builder">Prompt Builder</button>
+        <button class="nav-item" data-target="library">Prompt Library</button>
+        <button class="nav-item" data-target="drift">Drift & Hallucination Guard</button>
+        <button class="nav-item" data-target="export">Export</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="chip">Design inspired by your Pocket Cinema PDF aesthetic</div>
+        <div class="muted">Local, static, no tracking.</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="hero-header" role="img" aria-label="Site header image"></div>
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1>One-stop hub for image-to-image photo work</h1>
+          <p class="muted">Commercial/editorial + archival workflows, identity-safe prompts, and an interactive drift warning system.</p>
+        </div>
+        <div class="topbar-right">
+          <div class="pill">
+            <span class="dot"></span>
+            <span id="promptCount">Loading prompts…</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="notice" class="notice hidden" role="status" aria-live="polite"></section>
+
+      <section id="overview" class="panel">
+        <div class="panel-head">
+          <h2>Overview</h2>
+          <div class="accent-line"></div>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <h3>What this site does</h3>
+            <ul class="list">
+              <li>Browse an organized library of prompts (archival + commercial/editorial).</li>
+              <li>Generate “gold standard” prompts with dropdowns and radio boxes.</li>
+              <li>Warn you when choices increase identity drift or hallucination risk.</li>
+              <li>Export the final prompt as a .txt file (or copy to clipboard).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Operating principle</h3>
+            <p><strong>Truth first.</strong> Any model can improve aesthetics; fewer can preserve historical/identity truth. This OS forces guardrails so you stop before the image becomes fiction.</p>
+            <div class="callout">
+              <div class="callout-title">Golden rule</div>
+              <div>When in doubt, choose <strong>Archival</strong>. You can polish later. You cannot restore truth once it’s overwritten.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="decision" class="panel hidden">
+        <div class="panel-head">
+          <h2>Decision Flow</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <div class="card">
+          <pre class="pre" id="decisionFlow">Loading decision flow…</pre>
+        </div>
+      </section>
+
+      <section id="builder" class="panel hidden">
+        <div class="panel-head">
+          <h2>Prompt Builder</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <h3>1) Choose your workflow</h3>
+
+            <div class="field">
+              <label>Workflow mode</label>
+              <div class="radio-row" role="radiogroup" aria-label="Workflow mode">
+                <label class="radio"><input type="radio" name="mode" value="ARCHIVAL_USE_ONLY" checked> Archival (documentary / historical)</label>
+                <label class="radio"><input type="radio" name="mode" value="COMMERCIAL_EDITORIAL_USE"> Commercial / Editorial (publication-ready)</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Task</label>
+              <select id="task">
+                <option value="ENHANCE_FULL_IMAGE">Enhance (full image)</option>
+                <option value="FACE_IDENTITY">Face identity-safe</option>
+                <option value="SKIN_TEXTURE_GRAIN">Skin texture + grain</option>
+                <option value="LIGHTING_COLOR">Lighting + color balance</option>
+                <option value="BODY_PROPORTION">Body proportion + muscle (safe)</option>
+                <option value="POSE_ANGLE_SAFE">Change angle / pose (identity-safe)</option>
+                <option value="FACE_REPLACE">Face replace / composite</option>
+                <option value="UPSCALE_RESOLUTION">Upscale / resolution</option>
+                <option value="RETOUCH">Retouch (Photoshop-style)</option>
+                <option value="STYLE_CONTROLLED">Style (controlled)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Target platform</label>
+              <select id="platform">
+                <option value="GENERAL">General (most i2i models)</option>
+                <option value="CHATGPT">ChatGPT Image (GPT-Image / chatgpt-image-latest)</option>
+                <option value="GEMINI">Google Gemini Image (nano-banana pro)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Safety toggles (recommended)</label>
+              <div class="checks">
+                <label class="check"><input type="checkbox" id="lockIdentity" checked> Identity lock (faces immutable)</label>
+                <label class="check"><input type="checkbox" id="preserveGrain" checked> Preserve organic grain / noise</label>
+                <label class="check"><input type="checkbox" id="noCinematic" checked> Forbid cinematic/HDR grading</label>
+                <label class="check"><input type="checkbox" id="noBeautify" checked> Forbid beautification / de-aging</label>
+              </div>
+            </div>
+
+            <button id="generate" class="btn primary">Generate “Gold Standard” Prompt</button>
+            <div class="muted tiny">Tip: If you are changing angle/pose, expect higher drift risk. Use Archival first.</div>
+          </div>
+
+          <div class="card">
+            <h3>2) Your generated prompt</h3>
+            <div class="toolbar">
+              <button id="copy" class="btn">Copy</button>
+              <button id="download" class="btn">Download .txt</button>
+              <span class="spacer"></span>
+              <span id="riskBadge" class="badge ok">Risk: Low</span>
+            </div>
+            <textarea id="output" class="textarea" spellcheck="false" placeholder="Click “Generate” to build a prompt…"></textarea>
+            <div id="riskDetails" class="muted tiny"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="library" class="panel hidden">
+        <div class="panel-head">
+          <h2>Prompt Library</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <h3>Filters</h3>
+
+            <div class="field">
+              <label>Mode</label>
+              <select id="filterMode">
+                <option value="ALL">All</option>
+                <option value="ARCHIVAL_USE_ONLY">Archival</option>
+                <option value="COMMERCIAL_EDITORIAL_USE">Commercial/Editorial</option>
+                <option value="GENERAL">General</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Category</label>
+              <select id="filterCategory">
+                <option value="ALL">All</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Search</label>
+              <input id="filterSearch" class="input" type="text" placeholder="e.g., gold standard, checklist, face replace, 8k" />
+            </div>
+
+            <button id="applyFilters" class="btn primary">Apply</button>
+          </div>
+
+          <div class="card">
+            <h3>Results</h3>
+            <div id="results" class="results">Loading…</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="drift" class="panel hidden">
+        <div class="panel-head">
+          <h2>Drift & Hallucination Guard</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <h3>Risk simulator</h3>
+            <p class="muted">Set your intent and watch risk change in real time. Use this to sanity-check a prompt before running it.</p>
+
+            <div class="field">
+              <label>Operation type</label>
+              <select id="opType">
+                <option value="enhance">Enhance / cleanup only</option>
+                <option value="lighting">Lighting & color balancing</option>
+                <option value="upscale">Upscale / super-resolution</option>
+                <option value="pose">Pose or camera angle change</option>
+                <option value="face_replace">Face replace / composite</option>
+                <option value="style">Style transfer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Subject sensitivity</label>
+              <select id="sensitivity">
+                <option value="low">Low (objects / landscapes)</option>
+                <option value="med">Medium (people but not sensitive)</option>
+                <option value="high">High (historical / childhood / cultural identity)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Prompt words to avoid (toggle if present)</label>
+              <div class="checks">
+                <label class="check"><input type="checkbox" class="riskWord" value="ultra sharp"> “ultra sharp / crisp”</label>
+                <label class="check"><input type="checkbox" class="riskWord" value="perfect skin"> “perfect skin / airbrushed”</label>
+                <label class="check"><input type="checkbox" class="riskWord" value="cinematic"> “cinematic / HDR”</label>
+                <label class="check"><input type="checkbox" class="riskWord" value="beauty"> “beauty / model”</label>
+              </div>
+            </div>
+
+            <div class="toolbar">
+              <span id="simBadge" class="badge ok">Risk: Low</span>
+            </div>
+            <div id="simDetails" class="muted tiny"></div>
+          </div>
+
+          <div class="card">
+            <h3>Do-not-cross lines (fast checklist)</h3>
+            <ul class="list">
+              <li>Any change to facial structure, age cues, ethnicity, or expression → stop.</li>
+              <li>Skin becomes plastic/smooth or blotchy → stop.</li>
+              <li>Lighting becomes “modern studio” vs. original intent → stop.</li>
+              <li>New details appear that weren’t in the photo (hair strands, jewelry, wrinkles) → stop.</li>
+              <li>Color is “corrected” into a different era → stop.</li>
+            </ul>
+            <div class="callout">
+              <div class="callout-title">Practical tactic</div>
+              <div>Run <strong>Archival first</strong> to lock truth, then create a separate Commercial version for polish. Never overwrite the archival master.</div>
+            </div>
+          </div>
+        </div>
+      <div class="card">
+  <h3>Prompt Lint (Paste Any Prompt)</h3>
+  <p class="muted">Paste an existing prompt. The linter will flag risky phrases and suggest safer replacements.</p>
+  <textarea id="lintInput" class="textarea" placeholder="Paste your prompt here…"></textarea>
+  <div class="toolbar">
+    <button id="lintRun" class="btn primary">Run Lint</button>
+    <span class="spacer"></span>
+    <span id="lintBadge" class="badge ok">Lint: Clean</span>
+  </div>
+  <div id="lintResults" class="results"></div>
+</div>
+
+      </section>
+
+      <section id="export" class="panel hidden">
+        <div class="panel-head">
+          <h2>Export</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <div class="card">
+          <h3>What you can do next</h3>
+          <ul class="list">
+            <li>Host this folder on Netlify / Vercel / GitHub Pages (static site).</li>
+            <li>Drop in new prompt packs by updating <code>assets/prompts.json</code>.</li>
+            <li>Customize the UI theme in <code>assets/styles.css</code> (neon accents + bold editorial typography).</li>
+          </ul>
+          <div class="callout">
+            <div class="callout-title">Note</div>
+            <div>This site ships with your prompt library embedded locally in JSON. No external API calls required.</div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="muted">AI Photo OS — static site bundle. Built to match your clean editorial + neon accent aesthetic.</div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
