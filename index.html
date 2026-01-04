@@ -162,48 +162,95 @@
       </section>
 
       <section id="library" class="panel hidden">
-        <div class="panel-head">
-          <h2>Prompt Library</h2>
-          <div class="accent-line"></div>
+  <div class="panel-head">
+    <h2>Prompt Library</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>Pick a category</h3>
+      <p class="muted">This library is now control-based. Choose a category, set only the relevant options, then run a prompt. No duplicate “formatted prompts.”</p>
+
+      <div class="field">
+        <label>Workflow mode</label>
+        <select id="libMode">
+          <option value="ARCHIVAL_USE_ONLY">Archival (documentary / historical)</option>
+          <option value="COMMERCIAL_EDITORIAL_USE">Commercial / Editorial (publication-ready)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <select id="libCategory">
+          <option value="ENHANCE_FULL_IMAGE">Enhance (full image)</option>
+          <option value="FACE_IDENTITY">Face identity-safe</option>
+          <option value="SKIN_TEXTURE_GRAIN">Skin texture + grain</option>
+          <option value="LIGHTING_COLOR">Lighting + color balance</option>
+          <option value="BODY_PROPORTION">Body proportion + muscle (safe)</option>
+          <option value="POSE_ANGLE_SAFE">Change angle / pose (identity-safe)</option>
+          <option value="FACE_REPLACE">Face replace / composite</option>
+          <option value="UPSCALE_RESOLUTION">Upscale / resolution</option>
+          <option value="RETOUCH">Retouch (Photoshop-style)</option>
+          <option value="STYLE_CONTROLLED">Style (controlled)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Target platform</label>
+        <select id="libPlatform">
+          <option value="GENERAL">General (most i2i models)</option>
+          <option value="CHATGPT">ChatGPT Image (GPT-Image / chatgpt-image-latest)</option>
+          <option value="GEMINI">Google Gemini Image (nano-banana pro)</option>
+        </select>
+      </div>
+
+      <div class="callout" id="libAbout">
+        <div class="callout-title">About this category</div>
+        <div class="muted" id="libDesc">Select a category to see what it does and what it will not do.</div>
+      </div>
+
+      <div class="field">
+        <label>Category options</label>
+        <div id="libFields" class="fields-box"></div>
+      </div>
+
+      <div class="field">
+        <label>Safety locks (recommended)</label>
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="libLockIdentity" checked> Identity lock (faces immutable)</label>
+          <label class="check"><input type="checkbox" id="libPreserveGrain" checked> Preserve organic grain / noise</label>
+          <label class="check"><input type="checkbox" id="libNoCinematic" checked> Forbid cinematic/HDR grading</label>
+          <label class="check"><input type="checkbox" id="libNoBeautify" checked> Forbid beautification / de-aging</label>
         </div>
+      </div>
 
-        <div class="grid two">
-          <div class="card">
-            <h3>Filters</h3>
+      <div class="toolbar">
+        <button id="libRun" class="btn primary">Run Prompt</button>
+        <span class="spacer"></span>
+        <span id="libRiskBadge" class="badge ok">Risk: Low</span>
+      </div>
+      <div id="libRiskDetails" class="muted tiny"></div>
 
-            <div class="field">
-              <label>Mode</label>
-              <select id="filterMode">
-                <option value="ALL">All</option>
-                <option value="ARCHIVAL_USE_ONLY">Archival</option>
-                <option value="COMMERCIAL_EDITORIAL_USE">Commercial/Editorial</option>
-                <option value="GENERAL">General</option>
-              </select>
-            </div>
+      <div class="muted tiny">
+        Tip: For angle/pose work, start in <strong>Archival</strong>, get a truth-preserving baseline, then create a separate Commercial version for polish.
+      </div>
+    </div>
 
-            <div class="field">
-              <label>Category</label>
-              <select id="filterCategory">
-                <option value="ALL">All</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Search</label>
-              <input id="filterSearch" class="input" type="text" placeholder="e.g., gold standard, checklist, face replace, 8k" />
-            </div>
-
-            <button id="applyFilters" class="btn primary">Apply</button>
-          </div>
-
-          <div class="card">
-            <h3>Results</h3>
-            <div id="results" class="results">Loading…</div>
-          </div>
-        </div>
-      </section>
-
-      <section id="drift" class="panel hidden">
+    <div class="card">
+      <h3>Generated prompt</h3>
+      <div class="toolbar">
+        <button id="libCopy" class="btn">Copy</button>
+        <button id="libDownload" class="btn">Download .txt</button>
+        <span class="spacer"></span>
+        <span class="badge ok">Library Generator</span>
+      </div>
+      <textarea id="libOutput" class="textarea" spellcheck="false" placeholder="Choose a category and click “Run Prompt”…"></textarea>
+      <div class="muted tiny">This output is fully assembled and category-specific (no duplicates). You can paste directly into ChatGPT, Gemini, Flux, or any i2i model.</div>
+    </div>
+  </div>
+</section>
+<section id="drift" class="panel hidden">
         <div class="panel-head">
           <h2>Drift & Hallucination Guard</h2>
           <div class="accent-line"></div>
