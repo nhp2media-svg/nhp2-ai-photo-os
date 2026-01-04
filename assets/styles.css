@@ -354,3 +354,19 @@ code{background:#f3f3f3; padding:2px 6px; border-radius:8px; border:1px solid #e
 .small{
   font-size:12px;
 }
+
+
+
+/* V5: fixed header + nav overlay */
+.hero-header{
+  background-attachment: fixed;
+  margin-top: -72px;
+  padding-top: 72px;
+}
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255,255,255,.78);
+  backdrop-filter: blur(10px);
+}

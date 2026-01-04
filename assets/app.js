@@ -79,7 +79,7 @@ function bindNav(){
 function uniq(arr){ return Array.from(new Set(arr)).sort(); }
 
 function loadPrompts(){
-  return fetch('assets/prompts.json?cachebust=' + Date.now())
+  return fetch('assets/prompts.json?cb=' + Date.now())
     .then(r => r.json())
     .then(data => {
       PROMPTS = data;
