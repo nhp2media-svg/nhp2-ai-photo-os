@@ -349,7 +349,7 @@ loadPrompts().then(()=>{
 }).catch(err => {
   console.error(err);
   els.promptCount.textContent = "Failed to load prompts.";
-  showNotice("Failed to load prompts.json. Ensure assets/prompts.json exists.", "bad");
+  showNotice("Failed to load prompts.json: " + (err?.message || err), "bad");
 });
 
 /* ---------------- PROMPT LINT ---------------- */
