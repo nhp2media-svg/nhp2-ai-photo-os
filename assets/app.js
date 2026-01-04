@@ -94,7 +94,7 @@ function loadPrompts(){
       });
 
       // attempt to load decision flow from the COMMERCIAL/ARCHIVAL pack (if present)
-      const df = PROMPTS.find(p => p.path.endsWith('DECISION_FLOW_CHART.txt'));
+      const df = PROMPTS.find(p => (p.path || '').endsWith('DECISION_FLOW_CHART.txt'));
       if(df) els.decisionFlow.textContent = df.text;
       else els.decisionFlow.textContent = "Decision flow not found in prompt pack.";
 
